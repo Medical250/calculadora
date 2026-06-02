@@ -6,17 +6,17 @@
 <title>¿Cuánto estás perdiendo? — Medical Media</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-:root{--ink:#0f1117;--ink2:#3a3d4a;--muted:#7a7f92;--border:rgba(0,0,0,0.08);--surface:#ffffff;--bg:#f4f3ef;--accent:#c8f26e;--accent2:#1a1f36;--red:#e84c3d;--green:#2ecc71;--amber:#f39c12;--card-r:16px;}
+:root{--ink:#0f1117;--ink2:#3a3d4a;--muted:#7a7f92;--border:rgba(0,0,0,0.08);--surface:#ffffff;--bg:#f4f3ef;--accent:#1192E7;--accent2:#1a1f36;--card-r:16px;}
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
 .hero{background:var(--accent2);color:#fff;padding:3rem 1.5rem 4rem;text-align:center;position:relative;overflow:hidden;}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 110%,rgba(200,242,110,0.18) 0%,transparent 70%);}
-.hero-badge{display:inline-block;background:rgba(200,242,110,0.15);border:1px solid rgba(200,242,110,0.3);color:var(--accent);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:1.25rem;}
-.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,6vw,3.2rem);line-height:1.15;margin-bottom:1rem;position:relative;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 110%,rgba(17,146,231,0.18) 0%,transparent 70%);}
+.hero-badge{display:inline-block;background:rgba(17,146,231,0.15);border:1px solid rgba(17,146,231,0.3);color:var(--accent);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:1.25rem;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,6vw,3.2rem);line-height:1.15;margin-bottom:1rem;position:relative;}
 .hero h1 em{font-style:italic;color:var(--accent);}
 .hero p{font-size:15px;color:rgba(255,255,255,0.65);max-width:480px;margin:0 auto 2rem;line-height:1.6;position:relative;}
 .wrapper{max-width:860px;margin:0 auto;padding:2.5rem 1.25rem 5rem;}
@@ -33,20 +33,21 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-
 .input-prefix{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--muted);pointer-events:none;font-weight:500;}
 .field input{width:100%;padding:11px 12px 11px 30px;border:1.5px solid #e8e8e8;border-radius:10px;font-size:16px;font-family:'DM Sans',sans-serif;font-weight:500;color:var(--ink);background:#fafafa;transition:border-color .2s,box-shadow .2s,background .2s;-moz-appearance:textfield;}
 .field input::-webkit-inner-spin-button,.field input::-webkit-outer-spin-button{-webkit-appearance:none;}
-.field input:focus{outline:none;border-color:var(--accent2);background:#fff;box-shadow:0 0 0 3px rgba(26,31,54,0.08);}
-.slider-wrap{display:flex;flex-direction:column;gap:8px;}
+.field input:focus{outline:none;border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(17,146,231,0.1);}
+.slider-wrap{display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem;}
+.slider-wrap:last-child{margin-bottom:0;}
 .slider-top{display:flex;justify-content:space-between;align-items:center;}
 .slider-label{font-size:13px;color:var(--muted);font-weight:500;}
 .slider-value{font-size:18px;font-weight:700;color:var(--ink);min-width:48px;text-align:right;}
 input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:4px;background:#e0e0e0;outline:none;cursor:pointer;}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent2);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:transform .15s;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:transform .15s;}
 input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15);}
 .slider-hint{font-size:11px;color:#c0c3cf;}
 .divider{height:1px;background:var(--border);margin:1.5rem 0;}
 .resultado-hero{background:linear-gradient(135deg,#0f1117 0%,#1a1f36 100%);border-radius:var(--card-r);padding:2rem 1.5rem;margin-bottom:1.25rem;position:relative;overflow:hidden;}
-.resultado-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(200,242,110,0.15) 0%,transparent 70%);}
+.resultado-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(17,146,231,0.15) 0%,transparent 70%);}
 .resultado-hero-label{font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:.5rem;}
-.resultado-hero-num{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,7vw,3.8rem);color:var(--accent);line-height:1;margin-bottom:.4rem;position:relative;}
+.resultado-hero-num{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,7vw,3.8rem);color:var(--accent);line-height:1;margin-bottom:.4rem;position:relative;}
 .resultado-hero-sub{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.5;}
 .resultado-hero-sub strong{color:#fff;font-weight:600;}
 .metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.25rem;}
@@ -57,7 +58,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15);}
 .metric-card.amber{background:#fffbf0;border-color:#fde9a2;}
 .mc-label{font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;}
 .metric-card.red .mc-label{color:#c0392b;}.metric-card.green .mc-label{color:#1e8449;}.metric-card.amber .mc-label{color:#9a6700;}
-.mc-val{font-family:'DM Serif Display',serif;font-size:1.6rem;line-height:1;color:var(--ink);}
+.mc-val{font-family:'Playfair Display',serif;font-size:1.6rem;line-height:1;color:var(--ink);}
 .mc-sub{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4;}
 .semaforo{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.5;margin-bottom:1.25rem;}
 .sem-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px;}
@@ -79,15 +80,16 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15);}
 .proj-item{display:flex;align-items:center;gap:10px;}
 .proj-lbl{width:60px;color:var(--muted);flex-shrink:0;font-size:12px;}
 .proj-track{flex:1;height:14px;background:#f5f5f5;border-radius:6px;overflow:hidden;}
-.proj-fill{height:100%;border-radius:6px;background:linear-gradient(to right,rgba(231,76,60,0.4),#e74c3c);transition:width .8s cubic-bezier(.4,0,.2,1);}
-.proj-val{width:72px;text-align:right;font-weight:600;color:#e74c3c;flex-shrink:0;font-size:12px;}
+.proj-fill{height:100%;border-radius:6px;background:linear-gradient(to right,rgba(17,146,231,0.3),#1192E7);transition:width .8s cubic-bezier(.4,0,.2,1);}
+.proj-val{width:72px;text-align:right;font-weight:600;color:#1192E7;flex-shrink:0;font-size:12px;}
 .cta-card{background:var(--accent2);border-radius:var(--card-r);padding:2rem 1.5rem;text-align:center;margin-top:1.5rem;position:relative;overflow:hidden;}
-.cta-card h3{font-family:'DM Serif Display',serif;font-size:1.5rem;color:#fff;margin-bottom:.75rem;position:relative;}
+.cta-card::after{content:'';position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);width:300px;height:120px;background:radial-gradient(ellipse,rgba(17,146,231,0.2) 0%,transparent 70%);}
+.cta-card h3{font-family:'Playfair Display',serif;font-size:1.5rem;color:#fff;margin-bottom:.75rem;position:relative;}
 .cta-card p{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:1.5rem;line-height:1.6;position:relative;}
-.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent2);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;padding:13px 28px;border-radius:100px;text-decoration:none;border:none;cursor:pointer;transition:transform .15s,box-shadow .15s;}
-.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(200,242,110,0.35);}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;padding:13px 28px;border-radius:100px;text-decoration:none;border:none;cursor:pointer;transition:transform .15s,box-shadow .15s;}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(17,146,231,0.35);}
 .logo-bar{text-align:center;margin-bottom:2.5rem;}
-.logo-bar span{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--muted);letter-spacing:0.06em;}
+.logo-bar span{font-family:'Playfair Display',serif;font-size:1rem;color:var(--muted);letter-spacing:0.06em;}
 .logo-bar span strong{color:var(--ink);font-weight:400;}
 </style>
 </head>
@@ -110,7 +112,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15);}
   </div>
   <div class="step-header"><div class="step-num">2</div><div class="step-title">Tu presencia en Instagram</div></div>
   <div class="card">
-    <div class="slider-wrap" style="margin-bottom:1.25rem">
+    <div class="slider-wrap">
       <div class="slider-top"><span class="slider-label">¿Cuántos seguidores tienes en Instagram?</span><span class="slider-value" id="v-seg">500</span></div>
       <input type="range" id="seg" min="0" max="20000" step="100" value="500" oninput="document.getElementById('v-seg').textContent=parseInt(this.value).toLocaleString('es');calc()">
       <span class="slider-hint">Mueve el deslizador ←→</span>
@@ -122,7 +124,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15);}
     </div>
   </div>
   <div class="divider"></div>
-  <div class="step-header"><div class="step-num" style="background:var(--accent);color:var(--accent2)">→</div><div class="step-title">Tu diagnóstico</div></div>
+  <div class="step-header"><div class="step-num" style="background:var(--accent);color:#fff">→</div><div class="step-title">Tu diagnóstico</div></div>
   <div class="resultado-hero">
     <div class="resultado-hero-label">Estás perdiendo cada mes</div>
     <div class="resultado-hero-num" id="r-total">$0</div>
@@ -139,19 +141,15 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15);}
     <div class="ring-wrap">
       <svg class="ring-svg" width="150" height="150" viewBox="0 0 150 150">
         <circle fill="none" stroke="#e8e8e8" stroke-width="10" cx="75" cy="75" r="60"/>
-        <circle id="ring-c" fill="none" stroke="#c8f26e" stroke-width="10" stroke-linecap="round" cx="75" cy="75" r="60" stroke-dasharray="377" stroke-dashoffset="377" style="transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1),stroke .4s"/>
-        <text id="ring-pct" x="75" y="71" text-anchor="middle" dominant-baseline="middle" style="font-family:'DM Serif Display',serif;font-size:1.1rem;fill:#0f1117;transform:rotate(90deg);transform-origin:75px 75px"></text>
+        <circle id="ring-c" fill="none" stroke="#1192E7" stroke-width="10" stroke-linecap="round" cx="75" cy="75" r="60" stroke-dasharray="377" stroke-dashoffset="377" style="transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1),stroke .4s"/>
+        <text id="ring-pct" x="75" y="71" text-anchor="middle" dominant-baseline="middle" style="font-family:'Playfair Display',serif;font-size:1.1rem;fill:#0f1117;transform:rotate(90deg);transform-origin:75px 75px"></text>
         <text x="75" y="88" text-anchor="middle" dominant-baseline="middle" style="font-size:9px;fill:#7a7f92;font-family:'DM Sans',sans-serif;transform:rotate(90deg);transform-origin:75px 75px">de capacidad</text>
       </svg>
     </div>
     <p style="font-size:13px;color:var(--muted)" id="ring-desc">—</p>
   </div>
   <div class="card"><p style="font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:1rem">🔍 De dónde viene lo que pierdes</p><div class="bar-list" id="bar-list"></div></div>
-  <div class="card">
-    <p style="font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:.25rem">📅 Si no cambias nada hoy...</p>
-    <p style="font-size:12px;color:var(--muted);margin-bottom:1rem">Pérdida acumulada según el tiempo</p>
-    <div class="proj-bars" id="proj-bars"></div>
-  </div>
+  <div class="card"><p style="font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:.25rem">📅 Si no cambias nada hoy...</p><p style="font-size:12px;color:var(--muted);margin-bottom:1rem">Pérdida acumulada según el tiempo</p><div class="proj-bars" id="proj-bars"></div></div>
   <div class="card">
     <p style="font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:.25rem">📊 Tu situación vs tu potencial</p>
     <p style="font-size:12px;color:var(--muted);margin-bottom:1rem"> </p>
@@ -206,13 +204,13 @@ function calc(){
   document.getElementById('ring-pct').textContent=Math.round(ocup)+'%';
   document.getElementById('ring-desc').textContent=ocup>=80?'¡Muy bien! Agenda casi llena':ocup>=50?'Hay espacio para crecer':'Agenda con mucho potencial sin usar';
   var mx=Math.max(pCupos,pRetorno,pIG,1);
-  var bd=[{l:'Cupos sin llenar',v:pCupos,c:'#e74c3c'},{l:'Pacientes sin retorno',v:pRetorno,c:'#f39c12'},{l:'Leads de Instagram perdidos',v:pIG,c:'#9b59b6'}];
+  var bd=[{l:'Cupos sin llenar',v:pCupos,c:'#e74c3c'},{l:'Pacientes sin retorno',v:pRetorno,c:'#f39c12'},{l:'Leads de Instagram perdidos',v:pIG,c:'#1192E7'}];
   document.getElementById('bar-list').innerHTML=bd.map(function(b){return '<div class="bar-item"><span class="bar-item-label">'+b.l+'</span><div class="bar-track"><div class="bar-fill" style="width:'+((b.v/mx)*100).toFixed(1)+'%;background:'+b.c+'"></div></div><span class="bar-item-val" style="color:'+b.c+'">'+fmt(b.v)+'</span></div>';}).join('');
   var mxP=total*12||1;
   document.getElementById('proj-bars').innerHTML=[['1 mes',1],['3 meses',3],['6 meses',6],['12 meses',12]].map(function(m){var v=total*m[1];return '<div class="proj-item"><span class="proj-lbl">'+m[0]+'</span><div class="proj-track"><div class="proj-fill" style="width:'+((v/mxP)*100).toFixed(1)+'%"></div></div><span class="proj-val">'+fmt(v)+'</span></div>';}).join('');
   var ctx=document.getElementById('barChart').getContext('2d');
   if(barInst)barInst.destroy();
-  barInst=new Chart(ctx,{type:'bar',data:{labels:['Ingresos actuales','Potencial real'],datasets:[{data:[ing,pot],backgroundColor:['rgba(26,31,54,0.15)','#c8f26e'],borderRadius:8,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return fmt(c.raw);}}}},scales:{x:{grid:{display:false}},y:{ticks:{callback:function(v){return '$'+(v/1000).toFixed(0)+'k';}},grid:{color:'#f0f0f0'}}}}});
+  barInst=new Chart(ctx,{type:'bar',data:{labels:['Ingresos actuales','Potencial real'],datasets:[{data:[ing,pot],backgroundColor:['rgba(26,31,54,0.15)','#1192E7'],borderRadius:8,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return fmt(c.raw);}}}},scales:{x:{grid:{display:false}},y:{ticks:{callback:function(v){return '$'+(v/1000).toFixed(0)+'k';}},grid:{color:'#f0f0f0'}}}}});
 }
 calc();
 </script>
