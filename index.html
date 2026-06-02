@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¿Cuánto estás perdiendo? — Medical Media</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{--ink:#0f1117;--ink2:#3a3d4a;--muted:#7a7f92;--border:rgba(0,0,0,0.08);--surface:#ffffff;--bg:#f4f3ef;--accent:#c8f26e;--accent2:#1a1f36;--red:#e84c3d;--green:#2ecc71;--amber:#f39c12;--card-r:16px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+.hero{background:var(--accent2);color:#fff;padding:3rem 1.5rem 4rem;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 110%,rgba(200,242,110,0.18) 0%,transparent 70%);}
+.hero-badge{display:inline-block;background:rgba(200,242,110,0.15);border:1px solid rgba(200,242,110,0.3);color:var(--accent);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:1.25rem;}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,6vw,3.2rem);line-height:1.15;margin-bottom:1rem;position:relative;}
+.hero h1 em{font-style:italic;color:var(--accent);}
+.hero p{font-size:15px;color:rgba(255,255,255,0.65);max-width:480px;margin:0 auto 2rem;line-height:1.6;position:relative;}
+.wrapper{max-width:860px;margin:0 auto;padding:2.5rem 1.25rem 5rem;}
+.step-header{display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--accent2);color:var(--accent);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-title{font-size:13px;font-weight:600;color:var(--ink2);letter-spacing:0.04em;text-transform:uppercase;}
+.card{background:var(--surface);border-radius:var(--card-r);border:1px solid var(--border);padding:1.5rem;margin-bottom:1.25rem;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.input-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+@media(max-width:520px){.input-grid{grid-template-columns:1fr;}}
+.field{display:flex;flex-direction:column;gap:8px;}
+.field label{font-size:13px;color:var(--muted);font-weight:500;}
+.field label span{display:block;font-size:11px;color:#b0b4c1;font-weight:400;margin-top:2px;}
+.input-wrap{position:relative;}
+.input-prefix{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--muted);pointer-events:none;font-weight:500;}
+.field input{width:100%;padding:11px 12px 11px 30px;border:1.5px solid #e8e8e8;border-radius:10px;font-size:16px;font-family:'DM Sans',sans-serif;font-weight:500;color:var(--ink);background:#fafafa;transition:border-color .2s,box-shadow .2s,background .2s;-moz-appearance:textfield;}
+.field input::-webkit-inner-spin-button,.field input::-webkit-outer-spin-button{-webkit-appearance:none;}
+.field input:focus{outline:none;border-color:var(--accent2);background:#fff;box-shadow:0 0 0 3px rgba(26,31,54,0.08);}
+.slider-wrap{display:flex;flex-direction:column;gap:8px;}
+.slider-top{display:flex;justify-content:space-between;align-items:center;}
+.slider-label{font-size:13px;color:var(--muted);font-weight:500;}
+.slider-value{font-size:18px;font-weight:700;color:var(--ink);min-width:48px;text-align:right;}
+input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:4px;background:#e0e0e0;outline:none;cursor:pointer;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent2);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:transform .15s;}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15);}
+.slider-hint{font-size:11px;color:#c0c3cf;}
+.divider{height:1px;background:var(--border);margin:1.5rem 0;}
+.resultado-hero{background:linear-gradient(135deg,#0f1117 0%,#1a1f36 100%);border-radius:var(--card-r);padding:2rem 1.5rem;margin-bottom:1.25rem;position:relative;overflow:hidden;}
+.resultado-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(200,242,110,0.15) 0%,transparent 70%);}
+.resultado-hero-label{font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:.5rem;}
+.resultado-hero-num{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,7vw,3.8rem);color:var(--accent);line-height:1;margin-bottom:.4rem;position:relative;}
+.resultado-hero-sub{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.5;}
+.resultado-hero-sub strong{color:#fff;font-weight:600;}
+.metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.25rem;}
+@media(max-width:520px){.metric-grid{grid-template-columns:1fr 1fr;}}
+.metric-card{background:var(--surface);border-radius:12px;border:1px solid var(--border);padding:1rem;}
+.metric-card.red{background:#fff5f4;border-color:#fbd0cc;}
+.metric-card.green{background:#f0faf4;border-color:#b6e8c9;}
+.metric-card.amber{background:#fffbf0;border-color:#fde9a2;}
+.mc-label{font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;}
+.metric-card.red .mc-label{color:#c0392b;}.metric-card.green .mc-label{color:#1e8449;}.metric-card.amber .mc-label{color:#9a6700;}
+.mc-val{font-family:'DM Serif Display',serif;font-size:1.6rem;line-height:1;color:var(--ink);}
+.mc-sub{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4;}
+.semaforo{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.5;margin-bottom:1.25rem;}
+.sem-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.chart-wrap{position:relative;height:200px;margin-bottom:1rem;}
+.bar-list{display:flex;flex-direction:column;gap:10px;}
+.bar-item{display:flex;align-items:center;gap:10px;font-size:13px;}
+.bar-item-label{width:160px;color:var(--ink2);flex-shrink:0;line-height:1.3;}
+.bar-track{flex:1;height:8px;background:#ebebeb;border-radius:6px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:6px;transition:width .6s cubic-bezier(.4,0,.2,1);}
+.bar-item-val{width:70px;text-align:right;font-weight:600;flex-shrink:0;}
+.steps-list{display:flex;flex-direction:column;gap:1rem;}
+.step-item{display:flex;gap:14px;align-items:flex-start;}
+.step-icon{width:36px;height:36px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.step-body strong{font-size:14px;font-weight:600;display:block;margin-bottom:3px;}
+.step-body p{font-size:13px;color:var(--muted);line-height:1.5;}
+.ring-wrap{display:flex;justify-content:center;margin:1.5rem 0 1rem;}
+.ring-svg{transform:rotate(-90deg);}
+.proj-bars{display:flex;flex-direction:column;gap:10px;}
+.proj-item{display:flex;align-items:center;gap:10px;}
+.proj-lbl{width:60px;color:var(--muted);flex-shrink:0;font-size:12px;}
+.proj-track{flex:1;height:14px;background:#f5f5f5;border-radius:6px;overflow:hidden;}
+.proj-fill{height:100%;border-radius:6px;background:linear-gradient(to right,rgba(231,76,60,0.4),#e74c3c);transition:width .8s cubic-bezier(.4,0,.2,1);}
+.proj-val{width:72px;text-align:right;font-weight:600;color:#e74c3c;flex-shrink:0;font-size:12px;}
+.cta-card{background:var(--accent2);border-radius:var(--card-r);padding:2rem 1.5rem;text-align:center;margin-top:1.5rem;position:relative;overflow:hidden;}
+.cta-card h3{font-family:'DM Serif Display',serif;font-size:1.5rem;color:#fff;margin-bottom:.75rem;position:relative;}
+.cta-card p{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:1.5rem;line-height:1.6;position:relative;}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent2);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;padding:13px 28px;border-radius:100px;text-decoration:none;border:none;cursor:pointer;transition:transform .15s,box-shadow .15s;}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(200,242,110,0.35);}
+.logo-bar{text-align:center;margin-bottom:2.5rem;}
+.logo-bar span{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--muted);letter-spacing:0.06em;}
+.logo-bar span strong{color:var(--ink);font-weight:400;}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-badge">Medical Media · Diagnóstico Gratuito</div>
+  <h1>¿Cuánto dinero estás<br><em>perdiendo cada mes</em><br>sin marketing?</h1>
+  <p>Responde 6 preguntas simples y descubre el número exacto que tu consulta está dejando ir cada mes.</p>
+</div>
+<div class="wrapper">
+  <div class="logo-bar"><span><strong>Medical Media</strong> · Marketing Médico</span></div>
+  <div class="step-header"><div class="step-num">1</div><div class="step-title">Tu consulta hoy</div></div>
+  <div class="card">
+    <div class="input-grid">
+      <div class="field"><label>¿Cuántos pacientes nuevos ves al mes? <span>Los que llegan por primera vez</span></label><div class="input-wrap"><span class="input-prefix">#</span><input type="number" id="pa" value="20" min="0" max="500" oninput="calc()"></div></div>
+      <div class="field"><label>¿Cuánto cobras por consulta? <span>Precio en USD</span></label><div class="input-wrap"><span class="input-prefix">$</span><input type="number" id="tk" value="50" min="0" oninput="calc()"></div></div>
+      <div class="field"><label>¿Cuántos pacientes puedes ver al mes? <span>Tu capacidad máxima real</span></label><div class="input-wrap"><span class="input-prefix">#</span><input type="number" id="cm" value="60" min="1" oninput="calc()"></div></div>
+      <div class="field"><label>De cada 10 pacientes, ¿cuántos regresan? <span>Escribe un número del 0 al 10</span></label><div class="input-wrap"><span class="input-prefix">#</span><input type="number" id="re" value="4" min="0" max="10" oninput="calc()"></div></div>
+    </div>
+  </div>
+  <div class="step-header"><div class="step-num">2</div><div class="step-title">Tu presencia en Instagram</div></div>
+  <div class="card">
+    <div class="slider-wrap" style="margin-bottom:1.25rem">
+      <div class="slider-top"><span class="slider-label">¿Cuántos seguidores tienes en Instagram?</span><span class="slider-value" id="v-seg">500</span></div>
+      <input type="range" id="seg" min="0" max="20000" step="100" value="500" oninput="document.getElementById('v-seg').textContent=parseInt(this.value).toLocaleString('es');calc()">
+      <span class="slider-hint">Mueve el deslizador ←→</span>
+    </div>
+    <div class="slider-wrap">
+      <div class="slider-top"><span class="slider-label">De 100 personas que ven tu perfil, ¿cuántas te escriben?</span><span class="slider-value" id="v-con">2</span></div>
+      <input type="range" id="con" min="0" max="20" step="1" value="2" oninput="document.getElementById('v-con').textContent=this.value;calc()">
+      <span class="slider-hint">Promedio sin estrategia: 1–3 · Con estrategia: 8–15</span>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="step-header"><div class="step-num" style="background:var(--accent);color:var(--accent2)">→</div><div class="step-title">Tu diagnóstico</div></div>
+  <div class="resultado-hero">
+    <div class="resultado-hero-label">Estás perdiendo cada mes</div>
+    <div class="resultado-hero-num" id="r-total">$0</div>
+    <div class="resultado-hero-sub" id="r-sub">Completa los campos de arriba para ver tu diagnóstico</div>
+  </div>
+  <div class="metric-grid">
+    <div class="metric-card red"><div class="mc-label">Cupos vacíos</div><div class="mc-val" id="r-cupos">0</div><div class="mc-sub">pacientes sin atender</div></div>
+    <div class="metric-card amber"><div class="mc-label">Ocupación</div><div class="mc-val" id="r-ocup">0%</div><div class="mc-sub">de tu capacidad</div></div>
+    <div class="metric-card green"><div class="mc-label">Potencial real</div><div class="mc-val" id="r-pot">$0</div><div class="mc-sub">ingreso posible/mes</div></div>
+  </div>
+  <div id="sem-wrap"></div>
+  <div class="card" style="text-align:center">
+    <p style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem">Ocupación de tu consulta</p>
+    <div class="ring-wrap">
+      <svg class="ring-svg" width="150" height="150" viewBox="0 0 150 150">
+        <circle fill="none" stroke="#e8e8e8" stroke-width="10" cx="75" cy="75" r="60"/>
+        <circle id="ring-c" fill="none" stroke="#c8f26e" stroke-width="10" stroke-linecap="round" cx="75" cy="75" r="60" stroke-dasharray="377" stroke-dashoffset="377" style="transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1),stroke .4s"/>
+        <text id="ring-pct" x="75" y="71" text-anchor="middle" dominant-baseline="middle" style="font-family:'DM Serif Display',serif;font-size:1.1rem;fill:#0f1117;transform:rotate(90deg);transform-origin:75px 75px"></text>
+        <text x="75" y="88" text-anchor="middle" dominant-baseline="middle" style="font-size:9px;fill:#7a7f92;font-family:'DM Sans',sans-serif;transform:rotate(90deg);transform-origin:75px 75px">de capacidad</text>
+      </svg>
+    </div>
+    <p style="font-size:13px;color:var(--muted)" id="ring-desc">—</p>
+  </div>
+  <div class="card"><p style="font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:1rem">🔍 De dónde viene lo que pierdes</p><div class="bar-list" id="bar-list"></div></div>
+  <div class="card">
+    <p style="font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:.25rem">📅 Si no cambias nada hoy...</p>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:1rem">Pérdida acumulada según el tiempo</p>
+    <div class="proj-bars" id="proj-bars"></div>
+  </div>
+  <div class="card">
+    <p style="font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:.25rem">📊 Tu situación vs tu potencial</p>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:1rem"> </p>
+    <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+  </div>
+  <div class="card">
+    <p style="font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:1.25rem">🚀 3 pasos para recuperar ese dinero</p>
+    <div class="steps-list">
+      <div class="step-item"><div class="step-icon">🎯</div><div class="step-body"><strong>Optimiza tu perfil de Instagram</strong><p>El 80% de médicos pierde pacientes porque su bio no explica qué hace ni para quién. Un perfil bien configurado puede doblar los mensajes en 30 días.</p></div></div>
+      <div class="step-item"><div class="step-icon">📱</div><div class="step-body"><strong>Publica contenido que convierte</strong><p>Hay diferencia entre un post que educa y uno que hace que el paciente te escriba. La mayoría publica el primero. Tus pacientes necesitan el segundo.</p></div></div>
+      <div class="step-item"><div class="step-icon">🔁</div><div class="step-body"><strong>Automatiza el seguimiento</strong><p>El 70% de pacientes que te escribe y no agenda lo hace porque nadie les dio seguimiento. Una automatización simple recupera esos pacientes sin que hagas nada.</p></div></div>
+    </div>
+  </div>
+  <div class="cta-card">
+    <h3>¿Listo para recuperar<br>ese dinero?</h3>
+    <p>En Medical Media ayudamos a médicos en LATAM a llenar su agenda con estrategia digital. Una llamada de 15 minutos puede cambiar los números de tu consulta.</p>
+    <a href="https://calendly.com/medicalmedia360/15min" target="_blank" class="cta-btn">Agenda tu llamada gratis →</a>
+    <p style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:1rem;margin-bottom:0">Sin compromiso · 15 minutos · Solo para médicos</p>
+  </div>
+</div>
+<script>
+let barInst;
+function fmt(n){return '$'+Math.round(n).toLocaleString('es');}
+function calc(){
+  var pa=+document.getElementById('pa').value||0;
+  var tk=+document.getElementById('tk').value||0;
+  var cm=Math.max(+document.getElementById('cm').value||1,1);
+  var re=Math.min(+document.getElementById('re').value||0,10)/10;
+  var seg=+document.getElementById('seg').value||0;
+  var con=+document.getElementById('con').value||0;
+  var cupos=Math.max(cm-pa,0);
+  var ocup=Math.min((pa/cm)*100,100);
+  var pCupos=cupos*tk;
+  var pRetorno=Math.max(0.6-re,0)*pa*tk*0.5;
+  var pIG=(seg*(Math.max(8-con,0)/100))*tk*0.1;
+  var total=pCupos+pRetorno+pIG;
+  var pot=cm*tk*(1+re*0.3);
+  var ing=pa*tk*(1+re*0.3);
+  document.getElementById('r-total').textContent=fmt(total);
+  document.getElementById('r-sub').innerHTML='Tu consulta podría generar <strong>'+fmt(pot)+'/mes</strong> pero actualmente genera <strong>'+fmt(ing)+'/mes</strong>';
+  document.getElementById('r-cupos').textContent=Math.round(cupos);
+  document.getElementById('r-ocup').textContent=Math.round(ocup)+'%';
+  document.getElementById('r-pot').textContent=fmt(pot);
+  var sb,sd,sm;
+  if(ocup>=80){sb='#f0faf4';sd='#27ae60';sm='Tu agenda está bien ocupada ('+Math.round(ocup)+'%). El foco ahora debe ser aumentar ticket y retención.';}
+  else if(ocup>=50){sb='#fffbf0';sd='#f39c12';sm='Tienes un '+Math.round(100-ocup)+'% de capacidad sin usar. Con la estrategia correcta puedes llenarla en 60–90 días.';}
+  else{sb='#fff5f4';sd='#e74c3c';sm='Estás usando solo el '+Math.round(ocup)+'% de tu capacidad. Cada mes sin estrategia es dinero que no vuelve.';}
+  document.getElementById('sem-wrap').innerHTML='<div class="semaforo" style="background:'+sb+'"><span class="sem-dot" style="background:'+sd+'"></span><span>'+sm+'</span></div>';
+  var r=document.getElementById('ring-c');
+  r.style.strokeDashoffset=377-(ocup/100)*377;
+  r.style.stroke=ocup>=80?'#2ecc71':ocup>=50?'#f39c12':'#e74c3c';
+  document.getElementById('ring-pct').textContent=Math.round(ocup)+'%';
+  document.getElementById('ring-desc').textContent=ocup>=80?'¡Muy bien! Agenda casi llena':ocup>=50?'Hay espacio para crecer':'Agenda con mucho potencial sin usar';
+  var mx=Math.max(pCupos,pRetorno,pIG,1);
+  var bd=[{l:'Cupos sin llenar',v:pCupos,c:'#e74c3c'},{l:'Pacientes sin retorno',v:pRetorno,c:'#f39c12'},{l:'Leads de Instagram perdidos',v:pIG,c:'#9b59b6'}];
+  document.getElementById('bar-list').innerHTML=bd.map(function(b){return '<div class="bar-item"><span class="bar-item-label">'+b.l+'</span><div class="bar-track"><div class="bar-fill" style="width:'+((b.v/mx)*100).toFixed(1)+'%;background:'+b.c+'"></div></div><span class="bar-item-val" style="color:'+b.c+'">'+fmt(b.v)+'</span></div>';}).join('');
+  var mxP=total*12||1;
+  document.getElementById('proj-bars').innerHTML=[['1 mes',1],['3 meses',3],['6 meses',6],['12 meses',12]].map(function(m){var v=total*m[1];return '<div class="proj-item"><span class="proj-lbl">'+m[0]+'</span><div class="proj-track"><div class="proj-fill" style="width:'+((v/mxP)*100).toFixed(1)+'%"></div></div><span class="proj-val">'+fmt(v)+'</span></div>';}).join('');
+  var ctx=document.getElementById('barChart').getContext('2d');
+  if(barInst)barInst.destroy();
+  barInst=new Chart(ctx,{type:'bar',data:{labels:['Ingresos actuales','Potencial real'],datasets:[{data:[ing,pot],backgroundColor:['rgba(26,31,54,0.15)','#c8f26e'],borderRadius:8,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return fmt(c.raw);}}}},scales:{x:{grid:{display:false}},y:{ticks:{callback:function(v){return '$'+(v/1000).toFixed(0)+'k';}},grid:{color:'#f0f0f0'}}}}});
+}
+calc();
+</script>
+</body>
+</html>
